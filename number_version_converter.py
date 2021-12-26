@@ -2,8 +2,8 @@
  Converts between number formats
  Convert an IPv4 Format from Binary to decimal  octet versions
  Convert an IPv4 Format from decimal octets to Binary Version
-
 """
+import re
 
 
 def bin_to_decimal(bin):
@@ -57,16 +57,33 @@ def ipv4_bin_to_dec(ipv4):
     :param ipv4: has 8 bits in each octet
     :return: An str of the decimal version of each octet combined as an IPv4 Format
     """
-    # Creates a list of
-    the_ip = ipv4.split('.')
     ip_in_decimal = ""
-    for octet in range(len(the_ip)):
-        if octet == 3:
-            ip_in_decimal += bin_to_decimal(the_ip[octet])
-        else:
-            ip_in_decimal += bin_to_decimal(the_ip[octet]) + "."
+    if len(ipv4) == 36:
+        # Checks if octets are connected by dots
+        # if yes, then separate them using join
+        dot_test = re.compile("\.")
+        if dot_test.search(ipv4) is not None:
+            # Creates a list of octets
+            the_ip = ipv4.split('.')
+            for octet in range(len(the_ip)):
+                if octet == 3:
+                    ip_in_decimal += bin_to_decimal(the_ip[octet])
+                else:
+                    ip_in_decimal += bin_to_decimal(the_ip[octet]) + "."
+            return ip_in_decimal
 
-    return ip_in_decimal
+    else:
+        if len(ipv4) == 32: # Checks if the IP has a Valid Length - no dots
+            # means that the whole binary is given without dot separation
+            the_ip = [ipv4[i:i + 8] for i in range(0, len(ipv4), 8)]
+            for octet in range(len(the_ip)):
+                if octet == 3:
+                    ip_in_decimal += bin_to_decimal(the_ip[octet])
+                else:
+                    ip_in_decimal += bin_to_decimal(the_ip[octet]) + "."
+            return ip_in_decimal
+        else:
+            return "please Insert A Valid Ip Address"
 
 
 def decimal_to_bin(decimal):
@@ -74,7 +91,7 @@ def decimal_to_bin(decimal):
     my_binary = ""
     index = 0
     list_of_binaries = [128, 64, 32, 16, 8, 4, 2, 1]
-    while index <= 7 :
+    while index <= 7:
         if ((decimal) - list_of_binaries[index]) >= 0:
             my_binary += "1"
             decimal -= list_of_binaries[index]
@@ -84,8 +101,6 @@ def decimal_to_bin(decimal):
         index += 1
 
     return my_binary
-
-
 
 
 def ipv4_dec_to_bin(ipv4):
@@ -106,10 +121,16 @@ def ipv4_dec_to_bin(ipv4):
 
 # Initializing Main
 def main():
-    print(ipv4_dec_to_bin("25.235.1.0"))
-
-    print(ipv4_bin_to_dec("11101100.11101100.11101100.11101100"))
+    conversion_type = input("Insert 1 To Convert From Binary To Decimal"
+                            "\nInsert 2 ToConvert From Decimal To Binary\n----> ")
+    if conversion_type == "1":
+        the_ip = input("Insert Your IP Address: ")
+        print(ipv4_bin_to_dec(the_ip))
+    if conversion_type == "2":
+        the_ip = input("Insert Your IP Address: ")
+        print(ipv4_dec_to_bin(the_ip))
 
 
 if __name__ == '__main__':
-    main()
+    while True:
+        main()
