@@ -24,14 +24,17 @@ def ping_test(ip: str):
 
 
 def main():
-    command = input("""Enter \"Gateway\" to test for Gateway connectivity.""")
+    command = input("""Enter \"Gateway\" to test for Gateway connectivity.\nEnter \"it_dns\" to test for RIT DNS 
+    connectivity\nEnter google.com  to resolve to test validity""")
     command.lower()
 
     if command == "gateway":
         gate_way_ip = get_default_gateway()
+        print(f"The default Gateway: {gate_way_ip}")
         print(ping_test(gate_way_ip))
-    else:
-        pass
+    elif command == "rit_dns":
+        test_ip = "129.21.3.17"
+        print(ping_test(test_ip))
 
 
 if __name__ == '__main__':
