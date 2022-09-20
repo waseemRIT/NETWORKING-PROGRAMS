@@ -87,5 +87,5 @@ def main():
 
 
 if __name__ == '__main__':
-    while True:
+    while True: # KEEPS THE PROGRSM RUNNING TILL SOMEONE EXISTS USING CTRL + C
         main()
