@@ -8,7 +8,7 @@ def get_default_gateway():
     try:
         gateway_ip_add = ip_add.split()[2]
         return gateway_ip_add
-    except:
+    except IndexError:
         return "DEFAULT GATEWAY NOT FOUND"
 
 
@@ -21,7 +21,6 @@ def ping_test(ip: str):
         return 'IP unreachable'
     else:
         return 'IP reachable'
-    # print(output)
 
 
 def main():
