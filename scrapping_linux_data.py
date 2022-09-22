@@ -87,5 +87,5 @@ def main():
 
 
 if __name__ == '__main__':
-    while True: # KEEPS THE PROGRSM RUNNING TILL SOMEONE EXISTS USING CTRL + C
+    while True: # KEEPS THE PROGRAM RUNNING TILL SOMEONE EXISTS USING CTRL + C
         main()
