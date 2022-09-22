@@ -41,16 +41,16 @@ def ping_test(ip: str):
             only when all packets get no reply
         IP unreachable if the connectivity didn't work
     """
-    # USING os.popen() TO RUN THE ping SHELL COMMAND
-    stream = os.popen(f"ping -c4 {ip}")
+    # USING os.system() TO RUN THE ping SHELL COMMAND
+    output = os.system(f"ping -c4 {ip}")
     # COMMAND TO GET THE OUTPUT OF THE ping COMMAND
-    output = stream.read()
+    # output = stream.read()
     # TESTING FOR ANY ERRORS
-    if '0 received' in output or "Temporary failure in name resolution" in output:
-        return 'IP unreachable'
+    if output == 0:
+        return 'IP reachable'
     else:
         # MEANS NO ERRORS RAN IN THE PING COMMAND
-        return 'IP reachable'
+        return 'IP unreachable'
 
 
 def get_dns_ip(hostname: str):
