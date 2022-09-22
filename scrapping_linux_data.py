@@ -49,7 +49,7 @@ def ping_test(ip: str):
     if output == 0:
         return 'IP reachable'
     else:
-        # MEANS NO ERRORS RAN IN THE PING COMMAND
+        # MEANS THAT AN ERRORS OCCURRED IN THE PING COMMAND
         return 'IP unreachable'
 
 
@@ -64,8 +64,12 @@ def get_dns_ip(hostname: str):
         return dns_ip.stdout.decode().strip()
 
 
+def exit_function():
+    exit()
+
+
 def main():
-    # CREATING A MENUE FOR THE USER TO CHOOSE FROM THE FUNCTIONS OPTIONS
+    # CREATING A MENU FOR THE USER TO CHOOSE FROM THE FUNCTIONS OPTIONS
     command = input("----------------------------------------------------------------------------------\n1.Enter "
                     "\"gateway\" to test for Gateway connectivity.\n2.Enter \"rit_dns\" to test for RIT DNS "
                     "connectivity\n3.Enter \"dns_testing\" google.com  to resolve to test validity\n----->")
@@ -84,8 +88,12 @@ def main():
         hostname = input("What's the hostname: ")
         dns_ip = get_dns_ip(hostname)
         print(ping_test(dns_ip))  # PRINTING THE RESULT OF PINGING THE DNS/hostname
+    elif command == "exit":
+        print("---------------------------------------------------------------------")
+        print("EXITING PING TEST")
+        exit_function()
 
 
 if __name__ == '__main__':
-    while True: # KEEPS THE PROGRAM RUNNING TILL SOMEONE EXISTS USING CTRL + C
+    while True:  # KEEPS THE PROGRAM RUNNING TILL SOMEONE EXISTS USING CTRL + C
         main()
