@@ -35,7 +35,7 @@ def get_default_gateway():
 
 def ping_test(ip: str):
     """
-    Funtion used to test the connectivity of an IP ADDRESS
+    Function used to test the connectivity of an IP ADDRESS
     returns
         IP reachable if the connectivity worked
             only when all packets get no reply
