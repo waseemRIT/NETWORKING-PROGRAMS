@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+# STUDENT: WASEEM QAFFAF
+# DATE 28/09/22
 """
 There are 3 Functions to this Program
 1. Testing the connectivity of the default gateway
@@ -19,15 +21,19 @@ def get_default_gateway():
     """
     Function used to get the default gateway of the device automatically
     returns
-        the ip address of the default gateway
+        the ip address of the default gateway -> #.#.#.#
     or
         returns 0
         if default gateway is not available
     """
-    # USED TO RUN THE SHELL COMMAND TO GET THE DEFAULT GATEWAY IP ADDRESS
-    gateway = subprocess.run(["sh", "-c", "ip route | grep default"], stdout=subprocess.PIPE)
-    # GETS THE OUTPUT OF THE SHELL COMMAND USED | DECODES THE IP ADDRESS FROM b (binaries) to string
-    ip_address = gateway.stdout.decode()
+    try:
+        # USED TO RUN THE SHELL COMMAND TO GET THE DEFAULT GATEWAY IP ADDRESS
+        gateway = subprocess.run(["sh", "-c", "ip route | grep default"], stdout=subprocess.PIPE)
+        # GETS THE OUTPUT OF THE SHELL COMMAND USED | DECODES THE IP ADDRESS FROM b (binaries) to string
+        ip_address = gateway.stdout.decode()
+    except FileNotFoundError:
+        # IF DEFAULT GATEWAY FILE IS NOT FOUND RETURN 0 SINCE THAT WOULD MEAN THAT THERE'S NO DEFAULT GATEWAY
+        return 0
     try:  # TESTING IF AN IP ADDRESS WAS RETURNED
         gateway_ip_add = ip_address.split()[2]  # STRIPING THE IP ADDRESS FROM THE REST OF THE INPUT
         return gateway_ip_add
@@ -104,7 +110,7 @@ def main():
     elif command == "4":
         print("---------------------------------------------------------------------")
         print("EXITING PING TEST")
-        exit_function()
+        exit_function()  # fUNCTION THE EXITS THE PROGRAM
 
 
 if __name__ == '__main__':
@@ -112,5 +118,5 @@ if __name__ == '__main__':
         try:
             main()
         except KeyboardInterrupt:
+            # INFORMS THE USER THAT THE PROGRAM HAS STOPPED CAUSE OF CTRL+C
             print('Force Exit Because of Keyboard Interruption')
-
