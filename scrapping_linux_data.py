@@ -78,11 +78,28 @@ def exit_function():
     exit()
 
 
+def getHeadline(size, char):
+    return char * (size + 6)
+
+
+def colorTextGreen(text):
+    return "\033[32m" + text + "\033[0m"
+
+
+def getHeader(sizeMargin, sizeTab, text):
+    tab = '\t' * sizeTab
+    header = tab + getHeadline(sizeMargin * 2 + 2 + len(text), '*') + '\n'
+    sideMargin = '*' * sizeMargin
+
+    return header + tab + sideMargin + ' ' + colorTextGreen(text) + ' ' + sideMargin + '\n' + header
+
+
 def main():
+    print(getHeader(3, 2, "Ping Test Troubleshooter"))
     # CREATING A MENU FOR THE USER TO CHOOSE FROM THE FUNCTIONS OPTIONS
-    command = input("----------------------------------------------------------------------------------\nEnter "
-                    "1 to test for Gateway connectivity.\nEnter 2 to test for RIT DNS "
-                    "connectivity\nEnter 3 google.com  to resolve to test validity\nEnter 4 to "
+    command = input("----------------------------------------------------------------------------------\n        Enter"
+                    "1 to test for Gateway connectivity.\n        Enter 2 to test for RIT DNS "
+                    "connectivity\n        Enter 3 google.com  to resolve to test validity\n        Enter 4 to "
                     "exit the program\n----->")
 
     command.lower()  # LOWERING THE INPUT OF THE USER JUST IN CASE
