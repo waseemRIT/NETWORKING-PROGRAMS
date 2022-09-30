@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+
 # STUDENT: WASEEM QAFFAF
+# STUDENT ID: whq8052
 # DATE 28/09/22
 """
-There are 3 Functions to this Program
+There are 3 Options to this Program
 1. Testing the connectivity of the default gateway
     note:default gateway is processed automatically
 2. Testing the RIT DNS connectivity
@@ -56,17 +58,17 @@ def ping_test(ip: str):
 
     # TESTING FOR ANY ERRORS
     if output == 0:
-        return 'IP reachable'
+        return f'YOUR DEVICE CAN SUCCESSFULLY CONNECT WITH {ip}'
     else:
         # MEANS THAT AN ERRORS OCCURRED IN THE PING COMMAND
-        return 'IP unreachable'
+        return f'YOUR DEVICE CANNOT CONNECT WITH {ip}'
 
 
 def get_dns_ip(hostname: str):
     try:
         dns_ip = socket.gethostbyname(hostname)  # RESOLVES THE IP ADDRESS OF THE HOSTNAME
         return dns_ip  # RETURNS THE IP ADDRESS
-    except:
+    except:  # IF THERE'S NO IP ADDRESS
         return 0
 
 
@@ -78,63 +80,65 @@ def exit_function():
     exit()
 
 
-def getHeadline(size, char):
-    return char * (size + 6)
-
-
-def colorTextGreen(text):
-    return "\033[32m" + text + "\033[0m"
-
-
-def getHeader(sizeMargin, sizeTab, text):
-    tab = '\t' * sizeTab
-    header = tab + getHeadline(sizeMargin * 2 + 2 + len(text), '*') + '\n'
-    sideMargin = '*' * sizeMargin
-
-    return header + tab + sideMargin + ' ' + colorTextGreen(text) + ' ' + sideMargin + '\n' + header
-
-
 def main():
-    print(getHeader(3, 2, "Ping Test Troubleshooter"))
     # CREATING A MENU FOR THE USER TO CHOOSE FROM THE FUNCTIONS OPTIONS
-    command = input("----------------------------------------------------------------------------------\n        Enter"
-                    "1 to test for Gateway connectivity.\n        Enter 2 to test for RIT DNS "
-                    "connectivity\n        Enter 3 google.com  to resolve to test validity\n        Enter 4 to "
-                    "exit the program\n----->")
+    command = input("\n\n----------------------------------------------------------------------------------\nEnter "
+                    "Selection:\n\t1 - Test Connectivity to your gateway.\n\t2 - Test For Remote Connectivity.\n\t3 - "
+                    "Test for DNS resolution.\n\t4 - Display gateway IP Address\nPlease enter a number (1-4) or quit/q"
+                    " to quit the program.\n---> ")
 
     command.lower()  # LOWERING THE INPUT OF THE USER JUST IN CASE
 
-    if command == "1":  # IF USER INPUT MATCHES gateway IT WILL TEST FOR THE GATEWAY FUNCTION
+    if command == "1":  # IF USER INPUT MATCHES 1 IT WILL TEST FOR THE GATEWAY FUNCTION
         gate_way_ip = get_default_gateway()  # GETTING THE IP ADDRESS
         if gate_way_ip != 0:
-            print(f"The default Gateway: {gate_way_ip}")  # PRINTING THE DEFAULT GATEWAY
-            print(ping_test(gate_way_ip))  # PRINTING THE RESULT OF PINGING THE DEFAULT GATEWAY
+            if "SUCCESSFULLY" in ping_test(gate_way_ip):  # PRINTING THE RESULT OF PINGING THE DEFAULT GATEWAY
+                print("DEFAULT GATEWAY CONNECTED SUCCESSFULLY")
         else:
-            print("DEFAULT GATEWAY NOT FOUND")
-    elif command == "2":  # IF THE USER INPUT MATCHES rit_dns IT WILL TEST FOR THE RIT DNS CONNECTIVITY
+            print("DEFAULT GATEWAY NOT FOUND ")
+
+    elif command == "2":  # IF THE USER INPUT MATCHES 2 IT WILL TEST FOR THE RIT DNS CONNECTIVITY
+        # RIT DNS:  129.21.3.17
         test_ip = "129.21.3.17"
-        print(ping_test(test_ip))  # PRINTING THE RESULT OF PINGING THE RIT DNS
-    elif command == "3":  # IF THE USER INPUT MATCHES dns_testing IT WILL TEST FOR THE DNS CONNECTIVITY
-        # GET THE HOSTNAME FROM THE USER
-        hostname = input("What's the hostname: ")
-        if hostname != "exit_func":
-            # VARIABLE TO STORE THE VALUE OF THE  IP ADDRESS
-            dns_ip = get_dns_ip(hostname)
-            if dns_ip != 0:  # get_dns_ip returns 0 if an ERROR OCCURRED DURING RESOLVING HOSTNAME
-                print(ping_test(dns_ip))  # PRINTING THE RESULT OF PINGING THE DNS/hostname
-            else:  # SOMETHING WENT WRONG WITH RESOLVING THE IP ADDRESS
-                print(
-                    "DNS resolution NOT FOUND")
-    elif command == "4":
+        if "SUCCESSFULLY" in ping_test(test_ip):  # PRINTING THE RESULT OF PINGING THE RIT DNS
+            print("RIT DOMAIN CONNECTED SUCCESSFULLY")
+        else:
+            print("RIT DOMAIN NOT UP")  # PRINTING THE RESULT OF PINGING THE RIT DNS
+
+    elif command == "3":  # IF THE USER INPUT MATCHES 3 IT WILL TEST FOR THE remote CONNECTIVITY
+        hostname = "google.com"
+        # VARIABLE TO STORE THE VALUE OF THE  IP ADDRESS
+        dns_ip = get_dns_ip(hostname)
+        if dns_ip != 0:  # get_dns_ip returns 0 if an ERROR OCCURRED DURING RESOLVING HOSTNAME
+            print(ping_test(dns_ip))  # PRINTING THE RESULT OF PINGING THE DNS/hostname
+            print("THIS IS THE google.com IP AFTER RESOLUTION")
+        else:  # SOMETHING WENT WRONG WITH RESOLVING THE IP ADDRESS
+            print(
+                "google.com DNS resolution to IP not found")
+
+    elif command == "4":  # IF THE USER INPUT MATCHES 4 IT WILL GRAB THE DEFAULT GATEWAY AND PRINT IT
+        gate_way_ip = get_default_gateway()  # GETTING THE IP ADDRESS
+        if gate_way_ip != 0:  # Checking if IP ADDRESS EXISTS
+            print(f"The Default Gateway: {gate_way_ip}")  # PRINTING THE DEFAULT GATEWAY
+        else:
+            print("DEFAULT GATEWAY NOT FOUND")  # there's no default gateway in the device
+
+    elif command == "quit" or command == "q":
         print("---------------------------------------------------------------------")
         print("EXITING PING TEST")
         exit_function()  # fUNCTION THE EXITS THE PROGRAM
 
+    else:
+        # AN INVALID OPTION WAS GIVEN AN INPUT
+        print("INVALID INPUT TRY AGAIN PLEASE!!\n")
+
 
 if __name__ == '__main__':
+    os.system("clear")  # CLEAR ALL PAST OUTPUTS
     while True:  # KEEPS THE PROGRAM RUNNING TILL SOMEONE EXISTS USING CTRL + C
         try:
             main()
         except KeyboardInterrupt:
             # INFORMS THE USER THAT THE PROGRAM HAS STOPPED CAUSE OF CTRL+C
-            print('Force Exit Because of Keyboard Interruption')
+            print('\nForce Exit Because of Keyboard Interruption\n')
+            exit_function()
