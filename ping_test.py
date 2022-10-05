@@ -31,6 +31,7 @@ def get_default_gateway():
     try:
         # USED TO RUN THE SHELL COMMAND TO GET THE DEFAULT GATEWAY IP ADDRESS
         # SUPPORTS OLD LINUX VERSIONS AND UP-TO-DATE VERSION
+        # sh starting the BASH (sh) shell | -c to run a command
         gateway = subprocess.run(["sh", "-c", "ip route | grep default"], stdout=subprocess.PIPE)
         # GETS THE OUTPUT OF THE SHELL COMMAND USED | DECODES THE IP ADDRESS FROM b (binaries) to string
         ip_address = gateway.stdout.decode()
