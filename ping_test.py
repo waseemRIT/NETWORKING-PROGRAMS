@@ -31,7 +31,7 @@ def get_default_gateway():
     try:
         # USED TO RUN THE SHELL COMMAND TO GET THE DEFAULT GATEWAY IP ADDRESS
         # SUPPORTS OLD LINUX VERSIONS AND UP-TO-DATE VERSION
-        # sh starting the BASH (sh) shell | -c to run a command
+        # sh starting the BASH (sh) shell | -c to get the first argument after it
         gateway = subprocess.run(["sh", "-c", "ip route | grep default"], stdout=subprocess.PIPE)
         # GETS THE OUTPUT OF THE SHELL COMMAND USED | DECODES THE IP ADDRESS FROM b (binaries) to string
         ip_address = gateway.stdout.decode()
@@ -95,8 +95,8 @@ def main():
         if gate_way_ip != 0:
             if "SUCCESSFULLY" in ping_test(gate_way_ip):  # PRINTING THE RESULT OF PINGING THE DEFAULT GATEWAY
                 print("DEFAULT GATEWAY CONNECTED SUCCESSFULLY")
-        else:
-            print("DEFAULT GATEWAY NOT FOUND ")
+            else:
+                print("DEFAULT GATEWAY NOT FOUND ")
 
     elif command == "2":  # IF THE USER INPUT MATCHES 2 IT WILL TEST FOR THE RIT DNS CONNECTIVITY
         # RIT DNS:  129.21.3.17
@@ -143,3 +143,6 @@ if __name__ == '__main__':
             # INFORMS THE USER THAT THE PROGRAM HAS STOPPED CAUSE OF CTRL+C
             print('\nForce Exit Because of Keyboard Interruption\n')
             exit_function()
+
+
+
